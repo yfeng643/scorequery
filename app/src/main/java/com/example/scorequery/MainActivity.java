@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                             dialog.show();
                         }
                     }
+                    //Toast.makeText(MainActivity.this, "version1.0.0", Toast.LENGTH_SHORT);
                 }
             }
         });
