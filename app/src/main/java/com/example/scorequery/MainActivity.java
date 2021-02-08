@@ -7,12 +7,16 @@ import android.app.WallpaperInfo;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.StrictMode;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -24,7 +28,11 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +44,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        try {
-            list=readExcel();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    list=readExcel();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Log.d("错误", "检查网络1");
+                }
+            }
+        }).start();
         Button queryScore=(Button)findViewById(R.id.button_query);
         queryScore.setOnClickListener(new View.OnClickListener() {
             int number_lenth;
@@ -51,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 //number= String.valueOf(((EditText)findViewById(R.id.stu_number)).getText()).toString();
                 //Log.d("number", String.valueOf(((EditText)findViewById(R.id.stu_number)).getText()));
                 //判断考号和姓名是否为空，为空则弹出alert
+
+
                 number_lenth= ((EditText)findViewById(R.id.stu_number)).length();
                 name_length=((EditText)findViewById(R.id.stu_name)).length();
                 if(number_lenth==0){
@@ -116,6 +132,19 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //不推荐以下方法在Main中请求网络操作
+        //if(android.os.Build.VERSION.SDK_INT > 9) {
+        //    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //    StrictMode.setThreadPolicy(policy);
+        //}
+
+        //try {
+        //    list=readExcel();
+        //} catch (FileNotFoundException e) {
+        //    e.printStackTrace();
+        //}
+
+
         //for(int i=0;i<list.size();i++){
         //    StudentScore studentScore = list.get(47);
         //    Log.d("最后一行的学生名字", studentScore.getName());
@@ -128,17 +157,29 @@ public class MainActivity extends AppCompatActivity {
         List<StudentScore> list = new ArrayList<StudentScore>();
         InputStream is = null;
         Workbook workbook = null;
-
+        URL url=null;
         //String uriStr = "android.resource://" + getApplicationContext().getPackageName() + "/"+R.raw.stu_score;
         //Uri uri=Uri.parse(uriStr);
         try {
-            is = this.getResources().openRawResource(R.raw.stu_score);
+            url= new URL("http://140.143.12.8:8099/stu_score.xls");
+            URLConnection conn=url.openConnection();
+            conn.setConnectTimeout(3000);
+            conn.setReadTimeout(20000);
+            is=conn.getInputStream();
+            //is = url.openStream();
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("错误", "检查网络");
         }
+        //try {
+        //    is = url.openStream();
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //}
 
         try {
             workbook = new HSSFWorkbook(is);
+            is.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -231,3 +272,5 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+
+
