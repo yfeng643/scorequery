@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/stu_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:hint="输入学生考号"
+        android:maxLines="1"
+        />
+
+    <EditText
+        android:id="@+id/stu_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="2"
+        android:hint="输入学生姓名"
+        android:maxLines="1"
+        />
+
+    <Button
+        android:id="@+id/button_query"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/back_bg"
+        android:text="查询"
+        android:textColor="#fff"/>
+
+
+
+</LinearLayout>

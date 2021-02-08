@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/chinese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="语文："/>
+
+    <TextView
+        android:id="@+id/edit_chinese"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/chinese"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/math"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edit_chinese"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="数学："/>
+
+    <TextView
+        android:id="@+id/edit_math"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/math"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="20dp"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/chinese"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="英语："/>
+
+    <TextView
+        android:id="@+id/edit_english"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/english"
+        android:layout_alignTop="@id/english"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/physics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edit_english"
+        android:layout_alignTop="@id/edit_english"
+        android:layout_marginLeft="50dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="物理："/>
+
+    <TextView
+        android:id="@+id/edit_physics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/physics"
+        android:layout_alignTop="@id/physics"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/politics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/english"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="政治："/>
+
+    <TextView
+        android:id="@+id/edit_politics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/politics"
+        android:layout_alignTop="@id/politics"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edit_politics"
+        android:layout_alignTop="@id/edit_politics"
+        android:layout_marginLeft="50dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="历史："/>
+
+    <TextView
+        android:id="@+id/edit_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/history"
+        android:layout_alignTop="@id/history"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/biology"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/politics"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="生物："/>
+
+    <TextView
+        android:id="@+id/edit_biology"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/biology"
+        android:layout_alignTop="@id/biology"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/geography"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/edit_biology"
+        android:layout_alignTop="@id/edit_biology"
+        android:layout_marginLeft="50dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="地理："/>
+
+    <TextView
+        android:id="@+id/edit_geography"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/geography"
+        android:layout_alignTop="@id/geography"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/biology"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="总分："/>
+
+    <TextView
+        android:id="@+id/edit_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sum"
+        android:layout_alignTop="@id/sum"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sum"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="班级名次："/>
+
+    <TextView
+        android:id="@+id/edit_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/rank"
+        android:layout_alignTop="@id/rank"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+    <TextView
+        android:id="@+id/gradeRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rank"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="年级名次："/>
+
+    <TextView
+        android:id="@+id/edit_gradeRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/gradeRank"
+        android:layout_alignTop="@id/gradeRank"
+        android:layout_gravity="center_vertical"
+        android:textSize="18sp"
+        android:text=""
+        />
+
+</RelativeLayout>
