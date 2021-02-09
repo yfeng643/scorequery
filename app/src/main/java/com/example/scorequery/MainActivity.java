@@ -5,11 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.WallpaperInfo;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
+import android.provider.Settings;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -44,29 +48,34 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    list=readExcel();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Log.d("错误", "检查网络1");
+        if(!isNetworkConnected()){
+            showSetNetworkDialog();
+        }else{
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        list=readExcel();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        //Log.d("错误", "检查网络1");
+                    }
                 }
-            }
-        }).start();
+            }).start();
+        }
+        //不推荐以下方法在Main中请求网络操作
+        //if(android.os.Build.VERSION.SDK_INT > 9) {
+        //    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        //    StrictMode.setThreadPolicy(policy);
+        //}
+
         Button queryScore=(Button)findViewById(R.id.button_query);
         queryScore.setOnClickListener(new View.OnClickListener() {
             int number_lenth;
             int name_length;
             @Override
             public void onClick(View v) {
-                //finish();
-                //number= String.valueOf(((EditText)findViewById(R.id.stu_number)).getText()).toString();
-                //Log.d("number", String.valueOf(((EditText)findViewById(R.id.stu_number)).getText()));
                 //判断考号和姓名是否为空，为空则弹出alert
-
-
                 number_lenth= ((EditText)findViewById(R.id.stu_number)).length();
                 name_length=((EditText)findViewById(R.id.stu_name)).length();
                 if(number_lenth==0){
@@ -132,27 +141,45 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //不推荐以下方法在Main中请求网络操作
-        //if(android.os.Build.VERSION.SDK_INT > 9) {
-        //    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        //    StrictMode.setThreadPolicy(policy);
-        //}
-
         //try {
         //    list=readExcel();
         //} catch (FileNotFoundException e) {
         //    e.printStackTrace();
         //}
-
-
-        //for(int i=0;i<list.size();i++){
-        //    StudentScore studentScore = list.get(47);
-        //    Log.d("最后一行的学生名字", studentScore.getName());
-        //}
-
-
     }
 
+    //获取当前手机的网络状态
+    private boolean isNetworkConnected() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        NetworkInfo info = manager.getActiveNetworkInfo();
+        return (info != null && info.isConnected());
+    }
+
+    private void showSetNetworkDialog(){
+        AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+        builder.setTitle("错误：");
+        builder.setMessage("网络不通，请打开手机网络后重新打开app");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which){
+                //Intent intent = new Intent();
+                //intent.setAction(Settings.ACTION_DATA_ROAMING_SETTINGS);
+                //startActivityForResult(intent, 0);
+                finish();
+            }
+        });
+        /*
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+         */
+        builder.create().show();
+    }
+
+    //读取excel数据并写入list返回
     public List<StudentScore> readExcel() throws FileNotFoundException {
         List<StudentScore> list = new ArrayList<StudentScore>();
         InputStream is = null;
@@ -169,14 +196,8 @@ public class MainActivity extends AppCompatActivity {
             //is = url.openStream();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("错误", "检查网络");
+            //Log.d("错误", "检查网络");
         }
-        //try {
-        //    is = url.openStream();
-        //} catch (Exception e) {
-        //    e.printStackTrace();
-        //}
-
         try {
             workbook = new HSSFWorkbook(is);
             is.close();
@@ -202,8 +223,6 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("totalColumn", String.valueOf(totalColumn));
         //结果为13
         //Log.d("第二行考号", sheet.getRow(1).getCell(1).getStringCellValue() );
-
-
         //获得所有数据
         for (int i = 1; i < totalRowNum; i++) {
             //获得第i行对象
@@ -268,7 +287,6 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("List","已完成");
         //Log.d("学生姓名", list.get(47).getPhysics());
         return list;
-
     }
 
 }
