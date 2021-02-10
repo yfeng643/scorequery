@@ -66,24 +66,8 @@ public class MainActivity extends AppCompatActivity {
                         list=readExcel();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        //Toast toast = Toast.makeText(getApplicationContext(),"未读取到成绩，请联系老师", Toast.LENGTH_LONG);
-                        //toast.setGravity(Gravity.CENTER,  0, 0);
-                        //toast.show();
                         //showToast();
                         showTestDialog();
-                        /*
-                        AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this);
-                        dialog3.setTitle("错误：");
-                        dialog3.setMessage("未读取到成绩，请联系老师");
-                        dialog3.setCancelable(false);
-                        dialog3.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                finish();
-                            }
-                        });
-                        dialog3.create().show();
-                        */
                     }
                 }
             }).start();
