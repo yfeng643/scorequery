@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Looper.prepare();
+                    //Looper.prepare();
                     try {
                         list=readExcel();
                     } catch (IOException e) {
@@ -207,16 +207,17 @@ public class MainActivity extends AppCompatActivity {
         HttpURLConnection conn=null;
         //String uriStr = "android.resource://" + getApplicationContext().getPackageName() + "/"+R.raw.stu_score;
         //Uri uri=Uri.parse(uriStr);
-            
-            url= new URL(url_string);
-            conn=(HttpURLConnection)url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setConnectTimeout(3000);
-            conn.setReadTimeout(5000);
-            //Log.d("responseCode", String.valueOf(conn.getResponseCode()));
-            is=conn.getInputStream();
-            workbook = new HSSFWorkbook(is);
-            //is = url.openStream();
+        url= new URL(url_string);
+        conn=(HttpURLConnection)url.openConnection();
+        conn.setRequestMethod("GET");
+        conn.setConnectTimeout(3000);
+        conn.setReadTimeout(5000);
+                //Log.d("responseCode", String.valueOf(conn.getResponseCode()));
+        is=conn.getInputStream();
+        workbook = new HSSFWorkbook(is);
+                //is = url.openStream();
+
+
 
         //得到一个工作表
         Sheet sheet = workbook.getSheetAt(0);
