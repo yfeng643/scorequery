@@ -17,6 +17,7 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +46,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public List<StudentScore> list=null;
+    Handler handler = new Handler();
     String url_string="http://140.143.12.8:8099/stu_score.xls";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,30 @@ public class MainActivity extends AppCompatActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    //Looper.prepare();
-                    list=readExcel();
+                    Looper.prepare();
+                    try {
+                        list=readExcel();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        //Toast toast = Toast.makeText(getApplicationContext(),"未读取到成绩，请联系老师", Toast.LENGTH_LONG);
+                        //toast.setGravity(Gravity.CENTER,  0, 0);
+                        //toast.show();
+                        //showToast();
+                        showTestDialog();
+                        /*
+                        AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this);
+                        dialog3.setTitle("错误：");
+                        dialog3.setMessage("未读取到成绩，请联系老师");
+                        dialog3.setCancelable(false);
+                        dialog3.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        });
+                        dialog3.create().show();
+                        */
+                    }
                 }
             }).start();
             Button queryScore=(Button)findViewById(R.id.button_query);
@@ -175,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //读取excel数据并写入list返回
-    public List<StudentScore> readExcel(){
+    public List<StudentScore> readExcel() throws IOException {
         list = new ArrayList<StudentScore>();
         InputStream is = null;
         Workbook workbook = null;
@@ -183,37 +207,16 @@ public class MainActivity extends AppCompatActivity {
         HttpURLConnection conn=null;
         //String uriStr = "android.resource://" + getApplicationContext().getPackageName() + "/"+R.raw.stu_score;
         //Uri uri=Uri.parse(uriStr);
-        try {
+            
             url= new URL(url_string);
             conn=(HttpURLConnection)url.openConnection();
             conn.setRequestMethod("GET");
             conn.setConnectTimeout(3000);
             conn.setReadTimeout(5000);
-            if(conn.getResponseCode()==404){
-                AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this);
-                dialog3.setTitle("错误：");
-                dialog3.setMessage("未读取到成绩，请联系老师");
-                dialog3.setCancelable(false);
-                dialog3.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                dialog3.create().show();
-            }
             //Log.d("responseCode", String.valueOf(conn.getResponseCode()));
             is=conn.getInputStream();
             workbook = new HSSFWorkbook(is);
             //is = url.openStream();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            if(conn!=null){
-                conn.disconnect();
-            }
-
-        }
 
         //得到一个工作表
         Sheet sheet = workbook.getSheetAt(0);
@@ -297,6 +300,36 @@ public class MainActivity extends AppCompatActivity {
         //Log.d("List","已完成");
         //Log.d("学生姓名", list.get(47).getPhysics());
         return list;
+    }
+
+
+    public void showToast() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(), "未获取到成绩，请联系老师！",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void showTestDialog() {
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder dialog3 = new AlertDialog.Builder(MainActivity.this);
+                dialog3.setTitle("错误：");
+                dialog3.setMessage("未读取到成绩，请联系老师");
+                dialog3.setCancelable(false);
+                dialog3.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                dialog3.create().show();
+            }
+        });
     }
 
 }
